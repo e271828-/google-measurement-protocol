@@ -154,3 +154,13 @@ data = pageview(path='/my-page/', title='My Page', referrer='http://example.com/
 headers = {'user-agent': 'my-user-agent 1.0'}
 report('UA-123456-1', client_id, data, extra_header=headers)
 ```
+
+Reporting events without blocking web workers
+---------------------------------------------
+
+If you intend to use this package in a scenario where it is being called 
+within endpoints, you may want to consider using a queueing system like 
+[event-reporter](https://github.com/e271828-/event-reporter) to enqueue
+the message to a fast memory store like redis and have an out-of-band worker
+send it on to GA. This avoids adding the latency of a synchronous request
+to GA prior to returning your endpoint data.
